@@ -6,6 +6,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import control.Teclado;
+
 public class Juego extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,9 +24,13 @@ public class Juego extends Canvas implements Runnable {
 
 	private static JFrame ventana;
 	private static Thread thread;
+	private static Teclado teclado;
 
 	private Juego() {
 		setPreferredSize(new Dimension(ANCHO, ALTO));
+
+		teclado = new Teclado();
+		addKeyListener(teclado);
 
 		ventana = new JFrame(NOMBRE);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,6 +65,21 @@ public class Juego extends Canvas implements Runnable {
 	}
 
 	private void actualizar() {
+		teclado.actualizar();
+
+		if (teclado.arriba) {
+			System.out.println("Arriba");
+		}
+		if (teclado.abajo) {
+			System.out.println("Abajo");
+		}
+		if (teclado.izquierda) {
+			System.out.println("Izquierda");
+		}
+		if (teclado.derecha) {
+			System.out.println("Derecha");
+		}
+
 		aps++;
 	}
 
@@ -76,6 +97,8 @@ public class Juego extends Canvas implements Runnable {
 
 		double tiempoTranscurrido;
 		double delta = 0;
+
+		requestFocus();
 
 		while (enFuncionamiento) {
 			final long inicioBucle = System.nanoTime();
